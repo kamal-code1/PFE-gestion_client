@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liste Catalogues</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Liste des Catalogues</h1>
+    <a href="add.html" class="btn btn-primary mb-3">Ajouter un catalogue</a>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="catalogue-table-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    async function fetchCatalogues() {
+      try {
+        const response = await fetch('http://localhost:3000/catalogues');
+        const catalogues = await response.json();
+
+        const tbody = document.getElementById('catalogue-table-body');
+        tbody.innerHTML = '';
+
+        catalogues.forEach(cat => {
+          const tr = document.createElement('tr');
+
+          tr.innerHTML = `
+            <td>${cat._id}</td>
+            <td>${cat.nom}</td>
+            <td>${cat.description}</td>
+            <td>
+              <button onclick="deleteCatalogue('${cat._id}')" class="btn btn-danger btn-sm">Supprimer</button>
+            </td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+
+      } catch (error) {
+        console.error('Erreur lors du chargement des catalogues:', error);
+      }
+    }
+
+    async function deleteCatalogue(id) {
+      if (!confirm('Voulez-vous vraiment supprimer ce catalogue ?')) return;
+      try {
+        const res = await fetch(`http://localhost:3000/catalogues/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          alert('Catalogue supprimé avec succès');
+          fetchCatalogues();
+        } else {
+          alert('Erreur lors de la suppression');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+      }
+    }
+
+    
+    fetchCatalogues();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

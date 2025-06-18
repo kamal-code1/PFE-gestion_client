@@ -1,20 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const produitController = require('../controllers/produitController');
+const produitController = require("../controllers/produitController");
 
-// جميع المنتجات
-router.get('/', produitController.getAllProduits);
 
-// منتج معين بالمعرف
-router.get('/:id', produitController.getProduitById);
+router.get("/", produitController.getAllProduits);
 
-// إنشاء منتج جديد
-router.post('/', produitController.createProduit);
 
-// تعديل منتج موجود
-router.put('/:id', produitController.updateProduit);
+router.get("/:id", produitController.getProduitById);
 
-// حذف منتج
-router.delete('/:id', produitController.deleteProduit);
+
+router.post("/", produitController.createProduit);
+
+
+router.put("/:id", produitController.updateProduit);
+
+
+router.delete("/:id", produitController.deleteProduit);
 
 module.exports = router;

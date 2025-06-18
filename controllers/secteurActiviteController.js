@@ -1,4 +1,4 @@
-const secteurActiviteModel = require('../models/secteurActiviteModel');
+const secteurActiviteModel = require("../models/secteurActiviteModel");
 
 async function getAllSecteurs(req, res) {
   try {

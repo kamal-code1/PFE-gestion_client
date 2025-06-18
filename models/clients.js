@@ -1,34 +1,33 @@
-const db = require('../config/db');
+const { ObjectId } = require('mongodb');
+const connectDB = require('../config/db');
 
 async function getAllClients() {
-  const [rows] = await db.query('SELECT * FROM clients');
-  return rows;
+  const db = await connectDB();
+  return db.collection('clients').find().toArray();
 }
 
 async function getClientById(id) {
-  const [rows] = await db.query('SELECT * FROM clients WHERE id = ?', [id]);
-  return rows[0];
+  const db = await connectDB();
+  return db.collection('clients').findOne({ _id: new ObjectId(id) });
 }
 
 async function createClient(client) {
-  const { ice, nom, email, mot_de_passe, telephone, secteur_id, adresse } = client;
-  const [result] = await db.query(
-    'INSERT INTO clients (ice, nom, email, mot_de_passe, telephone, secteur_id, adresse) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [ice, nom, email, mot_de_passe, telephone, secteur_id, adresse]
-  );
-  return result.insertId;
+  const db = await connectDB();
+  const result = await db.collection('clients').insertOne(client);
+  return result.insertedId;
 }
 
 async function updateClient(id, client) {
-  const { ice, nom, email, mot_de_passe, telephone, secteur_id, adresse } = client;
-  await db.query(
-    'UPDATE clients SET ice=?, nom=?, email=?, mot_de_passe=?, telephone=?, secteur_id=?, adresse=? WHERE id=?',
-    [ice, nom, email, mot_de_passe, telephone, secteur_id, adresse, id]
+  const db = await connectDB();
+  await db.collection('clients').updateOne(
+    { _id: new ObjectId(id) },
+    { $set: client }
   );
 }
 
 async function deleteClient(id) {
-  await db.query('DELETE FROM clients WHERE id = ?', [id]);
+  const db = await connectDB();
+  await db.collection('clients').deleteOne({ _id: new ObjectId(id) });
 }
 
 module.exports = {

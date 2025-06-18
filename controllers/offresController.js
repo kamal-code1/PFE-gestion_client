@@ -1,4 +1,4 @@
-const offresModel = require('../models/offresModel');
+const offresModel = require("../models/offresModel");
 
 async function getAllOffres(req, res) {
   try {

@@ -1,6 +1,6 @@
-const produitsModel = require('../models/produits');
+const produitsModel = require("../models/produits");
 
-// جلب كل المنتجات
+
 async function getAllProduits(req, res) {
   try {
     const produits = await produitsModel.getAllProduits();
@@ -10,7 +10,7 @@ async function getAllProduits(req, res) {
   }
 }
 
-// جلب منتج معين بالمعرف
+
 async function getProduitById(req, res) {
   try {
     const id = req.params.id;
@@ -22,7 +22,7 @@ async function getProduitById(req, res) {
   }
 }
 
-// إنشاء منتج جديد
+
 async function createProduit(req, res) {
   try {
     const newProduitId = await produitsModel.createProduit(req.body);
@@ -32,7 +32,7 @@ async function createProduit(req, res) {
   }
 }
 
-// تعديل منتج موجود
+
 async function updateProduit(req, res) {
   try {
     const id = req.params.id;
@@ -43,7 +43,7 @@ async function updateProduit(req, res) {
   }
 }
 
-// حذف منتج
+
 async function deleteProduit(req, res) {
   try {
     const id = req.params.id;

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modifier un Client</title>
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Modifier un client</h3>
+      </div>
+      <div class="card-body">
+        <form id="edit-client-form">
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nom" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" />
+          </div>
+          <div class="mb-3">
+            <label for="telephone" class="form-label">Téléphone</label>
+            <input type="text" class="form-control" id="telephone" />
+          </div>
+          <div class="d-flex justify-content-between">
+            <a href="indix.html" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('edit-client-form');
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get('id');
+
+    // Charger les données du client
+    async function loadClient() {
+      if (!clientId) {
+        alert("ID du client manquant.");
+        window.location.href = "list.html";
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/clients/${clientId}`);
+        const client = await res.json();
+
+        document.getElementById('nom').value = client.nom;
+        document.getElementById('email').value = client.email || "";
+        document.getElementById('telephone').value = client.telephone || "";
+      } catch (e) {
+        alert("Erreur de chargement du client.");
+      }
+    }
+
+    // Enregistrer les modifications
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nom = document.getElementById('nom').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telephone = document.getElementById('telephone').value.trim();
+
+      if (!nom) {
+        alert("Le nom est requis.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/clients/${clientId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nom, email, telephone })
+        });
+
+        if (!res.ok) throw new Error("Erreur lors de la mise à jour");
+
+        alert("Client modifié avec succès !");
+        window.location.href = "list.html";
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // Charger le client au démarrage
+    document.addEventListener('DOMContentLoaded', loadClient);
+  </script>
+
+  <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

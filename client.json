@@ -1,0 +1,9 @@
+{
+  "nom": "Ahmed",
+  "prenom": "Khalid",
+  "email": "ahmed.khalid@example.com",
+  "telephone": "0600000000",
+  "adresse": "123 Rue Exemple, Casablanca",
+  "ville": "Casablanca",
+  "codePostal": "20000"
+}

@@ -1,57 +1,59 @@
-const catalogueModel = require('../models/catalogue');
-async function getAllCatalogues(req, res) {
-  try {
-    const catalogues = await catalogueModel.getAllCatalogues();
-    res.json(catalogues);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
+const { ObjectId } = require("mongodb");
 
-async function getCatalogueById(req, res) {
+exports.getAllCatalogues = async (req, res) => {
+  try {
+    const catalogues = await req.db.collection("catalogue").find().toArray();
+    res.json(catalogues);
+  } catch (err) {
+    res.status(500).json({ error: "Erreur lors de la récupération des catalogues" });
+  }
+};
+
+exports.getCatalogueById = async (req, res) => {
   try {
     const id = req.params.id;
-    const catalogue = await catalogueModel.getCatalogueById(id);
+    const catalogue = await req.db.collection("catalogue").findOne({ _id: new ObjectId(id) });
     if (!catalogue) return res.status(404).json({ error: "Catalogue non trouvé" });
     res.json(catalogue);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur lors de la récupération du catalogue" });
   }
-}
+};
 
-async function createCatalogue(req, res) {
+exports.createCatalogue = async (req, res) => {
   try {
-    const newId = await catalogueModel.createCatalogue(req.body);
-    res.status(201).json({ message: "Catalogue créé", id: newId });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const newCatalogue = req.body;
+    const result = await req.db.collection("catalogue").insertOne(newCatalogue);
+    res.status(201).json({ insertedId: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur lors de la création du catalogue" });
   }
-}
+};
 
-async function updateCatalogue(req, res) {
-  try {
-    const id = req.params.id;
-    await catalogueModel.updateCatalogue(id, req.body);
-    res.json({ message: "Catalogue mis à jour" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
-async function deleteCatalogue(req, res) {
+exports.updateCatalogue = async (req, res) => {
   try {
     const id = req.params.id;
-    await catalogueModel.deleteCatalogue(id);
-    res.json({ message: "Catalogue supprimé" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const updatedData = req.body;
+    const result = await req.db.collection("catalogue").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedData }
+    );
+    if (result.matchedCount === 0)
+      return res.status(404).json({ error: "Catalogue non trouvé" });
+    res.json({ modifiedCount: result.modifiedCount });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur lors de la mise à jour du catalogue" });
   }
-}
+};
 
-module.exports = {
-  getAllCatalogues,
-  getCatalogueById,
-  createCatalogue,
-  updateCatalogue,
-  deleteCatalogue,
+exports.deleteCatalogue = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await req.db.collection("catalogue").deleteOne({ _id: new ObjectId(id) });
+    if (result.deletedCount === 0)
+      return res.status(404).json({ error: "Catalogue non trouvé" });
+    res.json({ deletedCount: result.deletedCount });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur lors de la suppression du catalogue" });
+  }
 };

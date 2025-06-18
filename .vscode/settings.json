@@ -1,0 +1,22 @@
+{
+    "cSpell.words": [
+        "gestion"
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "kamal",
+            "database": "[1749229314593] ERROR (ls): Open connection error     ns: \"conn-manager\" [1749229314594] ERROR (ext): ERROR: Error opening connection Access denied for user 'root'@'localhost' (using password: YES), {\"code\":-1,\"data\":{\"driver\":\"MySQL\",\"driverOptions\":{\"mysqlOptions\":{\"authProtocol\":\"default\",\"enableSsl\":\"Disabled\"}}}}     ns: \"error-handler\" [1749229317587] INFO  (ext): EXECUTING COMMAND => sqltools.showOutputChannel [1749229318976] INFO  (ext): Connection explorer changed. Will be updated.     ns: \"conn-man:explorer\" [1749229318977] INFO  (ext): EXECUTING COMMAND => sqltools.getConnections [1749229318978] INFO  (ls): REQUEST RECEIVED => connection/GetConnectionsRequest",
+            "username": "gestion_client",
+            "password": ""
+        }
+    ],
+    "liveServer.settings.port": 5501
+}

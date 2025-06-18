@@ -1,0 +1,84 @@
+/* styles.css */
+
+/* Corps de la page */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Titres */
+h1, h2, h3 {
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+
+/* Navbar */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Cartes du tableau de bord */
+.card {
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.15s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Boutons personnalisés */
+.btn-light {
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-light:hover {
+  background-color: #e2e6ea;
+}
+
+/* Tables */
+.table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #cfe2ff;
+}
+
+/* Formulaires */
+form label {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+input.form-control, select.form-select, textarea.form-control {
+  border-radius: 0.5rem;
+  transition: border-color 0.3s ease;
+}
+
+input.form-control:focus, select.form-select:focus, textarea.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+}
+
+/* Messages */
+.alert-error {
+  color: #dc3545;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  color: #198754;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}

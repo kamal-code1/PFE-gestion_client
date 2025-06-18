@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ajouter Catalogue</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Ajouter un nouveau catalogue</h1>
+    <form id="addCatalogueForm">
+      <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" name="nom" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-control" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Ajouter</button>
+      <a href="list.html" class="btn btn-secondary ms-2">Retour</a>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('addCatalogueForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nom = e.target.nom.value;
+      const description = e.target.description.value;
+
+      try {
+        const response = await fetch('http://localhost:3000/catalogues', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nom, description })
+        });
+
+        if (response.ok) {
+          alert('Catalogue ajouté avec succès');
+          window.location.href = 'list.html';
+        } else {
+          alert('Erreur lors de l\'ajout');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

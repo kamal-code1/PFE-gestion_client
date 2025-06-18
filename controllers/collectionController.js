@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-// جلب كل السجلات
+
 async function getAllCollections(req, res) {
   try {
     const [rows] = await db.query('SELECT * FROM collection');
@@ -10,7 +10,7 @@ async function getAllCollections(req, res) {
   }
 }
 
-// جلب سجل واحد
+
 async function getCollectionById(req, res) {
   const { id } = req.params;
   try {
@@ -22,7 +22,7 @@ async function getCollectionById(req, res) {
   }
 }
 
-// إنشاء سجل جديد
+
 async function createCollection(req, res) {
   const { titre, description, client_id } = req.body;
   try {
@@ -36,7 +36,7 @@ async function createCollection(req, res) {
   }
 }
 
-// تحديث سجل
+
 async function updateCollection(req, res) {
   const { id } = req.params;
   const { titre, description, client_id } = req.body;
@@ -51,7 +51,7 @@ async function updateCollection(req, res) {
   }
 }
 
-// حذف سجل
+
 async function deleteCollection(req, res) {
   const { id } = req.params;
   try {

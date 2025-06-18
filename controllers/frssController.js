@@ -1,4 +1,4 @@
-const frssModel = require('../models/frssModel');
+const frssModel = require("../models/frssModel");
 
 async function getAllFrss(req, res) {
   try {
@@ -13,7 +13,8 @@ async function getFrssById(req, res) {
   try {
     const id = req.params.id;
     const fournisseur = await frssModel.getFrssById(id);
-    if (!fournisseur) return res.status(404).json({ error: "Fournisseur non trouvé" });
+    if (!fournisseur)
+      return res.status(404).json({ error: "Fournisseur non trouvé" });
     res.json(fournisseur);
   } catch (error) {
     res.status(500).json({ error: error.message });

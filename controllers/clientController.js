@@ -1,58 +1,62 @@
-const clientModel = require('../models/clientModel');
+const db = require('../config/db'); // Assure-toi que ce fichier exporte bien `pool`
 
-
-const getClients = async (req, res) => {
-  try {
-    const clients = await clientModel.getAllClients();
-    res.json(clients);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+const getAllClients = async () => {
+  const [rows] = await db.query('SELECT * FROM clients');
+  return rows;
 };
 
-
-const getClient = async (req, res) => {
-  try {
-    const client = await clientModel.getClientById(req.params.id);
-    if (!client) return res.status(404).json({ message: 'Client not found' });
-    res.json(client);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+const getClientById = async (id) => {
+  const [rows] = await db.query('SELECT * FROM clients WHERE id = ?', [id]);
+  return rows[0];
 };
 
-const createClient = async (req, res) => {
-  try {
-    const id = await clientModel.createClient(req.body);
-    res.status(201).json({ id, message: 'Client created' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+const createClient = async (clientData) => {
+  const {
+    ice,
+    nom,
+    email,
+    mot_de_passe,
+    telephone,
+    secteur_id,
+    adresse
+  } = clientData;
+
+  const [result] = await db.query(
+    `INSERT INTO clients (ice, nom, email, mot_de_passe, telephone, secteur_id, adresse)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [ice, nom, email, mot_de_passe, telephone, secteur_id, adresse]
+  );
+
+  return result.insertId;
 };
 
+const updateClient = async (id, clientData) => {
+  const {
+    ice,
+    nom,
+    email,
+    mot_de_passe,
+    telephone,
+    secteur_id,
+    adresse
+  } = clientData;
 
-const updateClient = async (req, res) => {
-  try {
-    await clientModel.updateClient(req.params.id, req.body);
-    res.json({ message: 'Client updated' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  await db.query(
+    `UPDATE clients
+     SET ice = ?, nom = ?, email = ?, mot_de_passe = ?, telephone = ?, secteur_id = ?, adresse = ?
+     WHERE id = ?`,
+    [ice, nom, email, mot_de_passe, telephone, secteur_id, adresse, id]
+  );
 };
 
-const deleteClient = async (req, res) => {
-  try {
-    await clientModel.deleteClient(req.params.id);
-    res.json({ message: 'Client deleted' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+const deleteClient = async (id) => {
+  await db.query('DELETE FROM clients WHERE id = ?', [id]);
 };
 
 module.exports = {
-  getClients,
-  getClient,
+  getAllClients,
+  getClientById,
   createClient,
   updateClient,
-  deleteClient,
+  deleteClient
 };
