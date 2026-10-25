@@ -14,7 +14,7 @@ async function connectDB() {
   try {
     await client.connect();
     console.log("✅ Connexion à MongoDB réussie !");
-    dbInstance = client.db('gestion_client');ت
+    dbInstance = client.db('gestion_client');
     return dbInstance;
   } catch (err) {
     console.error("❌ Erreur de connexion à MongoDB :", err);
