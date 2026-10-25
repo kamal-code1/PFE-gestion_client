@@ -28,7 +28,7 @@
   <script>
     async function fetchClients() {
       try {
-        const res = await fetch('http://localhost:3000/clients');
+        const res = await fetch('http://localhost:3000/api/clients');
         const clients = await res.json();
         const tbody = document.getElementById('clients-table-body');
         tbody.innerHTML = '';
@@ -57,7 +57,7 @@
       if (!confirm('Voulez-vous vraiment supprimer ce client ?')) return;
 
       try {
-        const res = await fetch(`http://localhost:3000/clients/${id}`, {
+        const res = await fetch(`http://localhost:3000/api/clients/${id}`, {
           method: 'DELETE'
         });
         if (res.ok) {

@@ -31,7 +31,7 @@
       const description = e.target.description.value;
 
       try {
-        const response = await fetch('http://localhost:3000/catalogues', {
+        const response = await fetch('http://localhost:3000/api/catalogues', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nom, description })

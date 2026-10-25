@@ -26,7 +26,7 @@
   <script>
     async function fetchCatalogues() {
       try {
-        const response = await fetch('http://localhost:3000/catalogues');
+        const response = await fetch('http://localhost:3000/api/catalogues');
         const catalogues = await response.json();
 
         const tbody = document.getElementById('catalogue-table-body');
@@ -55,7 +55,7 @@
     async function deleteCatalogue(id) {
       if (!confirm('Voulez-vous vraiment supprimer ce catalogue ?')) return;
       try {
-        const res = await fetch(`http://localhost:3000/catalogues/${id}`, { method: 'DELETE' });
+        const res = await fetch(`http://localhost:3000/api/catalogues/${id}`, { method: 'DELETE' });
         if (res.ok) {
           alert('Catalogue supprimé avec succès');
           fetchCatalogues();
